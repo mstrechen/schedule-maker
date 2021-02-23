@@ -1,5 +1,5 @@
 from collections import namedtuple
-from genetic_algorithm import GeneticAlgorithm
+from .genetic_algorithm import GeneticAlgorithm
 from copy import deepcopy
 import random
 
