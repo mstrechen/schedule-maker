@@ -1,5 +1,10 @@
 from collections import namedtuple
-from .genetic_algorithm import GeneticAlgorithm
+
+try:
+    from solvers.mariia.genetic_algorithm import GeneticAlgorithm
+except:
+    from .genetic_algorithm import GeneticAlgorithm
+
 from copy import deepcopy
 import random
 
@@ -112,7 +117,7 @@ class ScheduleProblem:
                         for teacher in self.subject_to_teacher[subject]:
                             if count == 0:
                                 break
-                            schedule[group][timeslot] = ScheduleEntry(subject, teacher, classroom, None, None)
+                            schedule[group][timeslot] = ScheduleEntry(subject, classroom, teacher, None, None)
                             if self.is_valid(schedule):
                                 count -= 1
                                 continue
@@ -132,8 +137,7 @@ class ScheduleProblem:
                                     if count == 0:
                                         break
 
-                                    schedule[group][timeslot] = ScheduleEntry(subject,
-                                                                teacher1, classroom1, teacher2, classroom2)
+                                    schedule[group][timeslot] = ScheduleEntry(subject, classroom1, teacher1, classroom2, teacher2)
                                     if self.is_valid(schedule):
                                         count -= 1
                                         continue
@@ -172,29 +176,29 @@ class ScheduleProblem:
             if self.is_lecture(subject):
                 classroom = schedule[group][timeslot].class1
                 teacher = random.choice(self.subject_to_teacher[subject])
-                candidate[group][timeslot] = ScheduleEntry(subject, teacher, classroom, None, None)
+                candidate[group][timeslot] = ScheduleEntry(subject, classroom, teacher, None, None)
             else:
                 entry = candidate[group][timeslot]
                 flip = random.random()
                 if flip > 0.5:
                     teacher1, class1 = entry.teacher1, entry.class1
                     teacher2, class2 = entry.teacher2, entry.class2
-                    entry = ScheduleEntry(subject, teacher2, class2, teacher1, class1)
+                    entry = ScheduleEntry(subject, class2, teacher2, class1, teacher1)
                     candidate[group][timeslot] = entry
 
                 change_teacher = random.random()
                 if change_teacher > 0.5:
                     for _ in range(5):
                         teacher = random.choice(self.subject_to_teacher[subject])
-                        candidate[group][timeslot] = ScheduleEntry(entry.subject, teacher,
-                                                                   entry.class1, entry.teacher2, entry.class2)
+                        candidate[group][timeslot] = ScheduleEntry(entry.subject, entry.class1, teacher,
+                                                                    entry.class2, entry.teacher2, )
                         if self.is_valid(candidate):
                             break
                 else:
                     for _ in range(5):
                         classroom = random.randint(0, self.classroom_count - 1)
-                        candidate[group][timeslot] = ScheduleEntry(entry.subject, entry.teacher1, classroom,
-                                                                   entry.teacher2, entry.class2)
+                        candidate[group][timeslot] = ScheduleEntry(entry.subject, classroom, entry.teacher1,
+                                                                   entry.class2, entry.teacher2, )
                         if self.is_valid(candidate):
                             break
 
