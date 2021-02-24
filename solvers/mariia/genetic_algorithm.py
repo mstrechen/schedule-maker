@@ -30,8 +30,8 @@ class GeneticAlgorithm:
             current_fitness += individual[1]
             fitnesses.append(current_fitness)
 
-        rand1 = random.randint(0, current_fitness - 1)
-        rand2 = random.randint(0, current_fitness - 1)
+        rand1 = random.randint(0, current_fitness - 1) if current_fitness else 0
+        rand2 = random.randint(0, current_fitness - 1) if current_fitness else 0
         return restore_individual(rand1),  restore_individual(rand2)
 
     def fit(self):
