@@ -60,7 +60,7 @@ struct Lesson {
 
 class Schedule {
     std::vector<Lesson> lessons;
-    int computedScore;
+    mutable int computedScore;
     Requirements* requirements;
 
 public:
@@ -69,7 +69,7 @@ public:
     void Normalize() {
         std::sort(lessons.begin(), lessons.end());
     }
-    int GetScore() {
+    int GetScore() const {
         if (computedScore != -1) {
             return computedScore;
         }
@@ -95,7 +95,7 @@ public:
         return computedScore = score;
     }
 
-    bool operator< (Schedule& other) {
+    bool operator< (const Schedule& other) const{
         return this->GetScore() < other.GetScore();
     }
 
@@ -212,15 +212,15 @@ struct LessonOrder {
 };
 
 class OrderBasedSchedule {
-    std::vector<LessonOrder> lessonOrder;
-    std::map<std::pair<int, int>, std::vector<Lesson>> lessons;
-    int computedScore;
+    mutable std::vector<LessonOrder> lessonOrder;
+    mutable std::map<std::pair<int, int>, std::vector<Lesson>> lessons;
+    mutable int computedScore;
     Requirements* requirements;
 public:
     explicit OrderBasedSchedule(Requirements* _requirements) : computedScore(-1), requirements(_requirements) {};
     explicit OrderBasedSchedule() : computedScore(-1), requirements(nullptr) {};
     void Normalize() {}
-    int GetScore() {
+    int GetScore() const {
         if (computedScore != -1) {
             return computedScore;
         }
@@ -273,7 +273,7 @@ public:
         return computedScore = (requirements->lessonsCount - placedLessons);
     }
 
-    bool operator< (OrderBasedSchedule& other) {
+    bool operator< (const OrderBasedSchedule& other) const{
         return this->GetScore() < other.GetScore();
     }
 
