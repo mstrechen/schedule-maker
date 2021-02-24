@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+
+{% block main %}
+    <h1 class="mt-5">Schedule maker</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>Groups:</th>
+            <th>Teachers</th>
+            <th>Subjects</th>
+            <th>Classrooms</th>
+        </tr>
+    <tr>
+       <td>
+           <table>
+               {% for g in groups %}
+                   <tr><td>{{ g.group_name }}</td></tr>
+               {% endfor %}
+           </table>
+        </td>
+        <td>
+           <table>
+
+               {% for t in teachers %}
+                   <tr><td>{{ t.name }}</td></tr>
+               {% endfor %}
+           </table>
+        </td>
+        <td>
+           <table>
+               {% for s in subjects %}
+                   <tr>
+                       <td>{{ s.group_name }}</td>
+                       <td>{{ 'lecture' if s.is_lecture else 'seminar' }}</td>
+                   </tr>
+               {% endfor %}
+           </table>
+        </td>
+        <td>
+           <table>
+
+               {% for c in classrooms %}
+                   <tr>
+                       <td>{{ c.classroom_name }}</td>
+                       <td>{{ 'huge' if c.is_for_lecture else 'small' }}</td>
+                   </tr>
+               {% endfor %}
+           </table>
+
+       </td>
+    </tr>
+
+    </table>
+
+{% endblock %}

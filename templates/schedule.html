@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block main %}
+    {% if group %}
+        <h1 class="mt-5">Schedule for group {{ group }}, solver "{{ solver }}"</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th></th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+            {% for pair in range(4) %}
+                <tr>
+                <td>{{ pair }}</td>
+                {% for day in range(5) %}
+                    <td>
+                        {% if (day, pair) in schedule %}
+                        {% for classroom, subject, teacher in schedule.get((day, pair)) %}
+                            <b>{{ subject }}</b> with <b>{{ teacher }}</b> in <b>{{ classroom }}</b>
+                            <br>
+                        {% endfor %}
+                        {% else %}
+                            [empty]
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <table>
+        <tr>
+            <th>Choose a group:</th>
+        </tr>
+        {% for group in groups %}
+            <tr><td>
+                <a href="/schedule?group={{ quote_uri(group.group_name) }}">{{ group.group_name }}</a>
+            </td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
