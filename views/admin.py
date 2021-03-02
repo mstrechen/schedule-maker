@@ -17,6 +17,8 @@ class AdminView(View):
             groups=almost_orm.groups,
             teachers=almost_orm.teachers,
             classrooms=almost_orm.classrooms,
-            subjects=almost_orm.subjects
+            subjects=almost_orm.subjects,
+            teacher_to_subject=almost_orm.teacher_to_subject,
+            group_to_subject=almost_orm.group_to_subject,
         )
 

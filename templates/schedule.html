@@ -42,4 +42,14 @@
         {% endfor %}
         </table>
     {% endif %}
+    <div>
+    <p>Solutions:<br>
+    {% for solution, link in solution_links.items() %}
+    <a href="schedule?{{ link }}">{{ solution }}</a>
+        {% if not loop.last %}
+            |
+        {% endif %}
+    {% endfor %}
+    </p>
+    </div>
 {% endblock %}

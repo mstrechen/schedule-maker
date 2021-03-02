@@ -29,7 +29,7 @@
            <table>
                {% for s in subjects %}
                    <tr>
-                       <td>{{ s.group_name }}</td>
+                       <td>{{ s.subject_name }}</td>
                        <td>{{ 'lecture' if s.is_lecture else 'seminar' }}</td>
                    </tr>
                {% endfor %}
@@ -47,6 +47,22 @@
            </table>
 
        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table>
+                {% for tts in teacher_to_subject %}
+                    <tr><td>{{ tts.name }} - {{ tts.subject_name }}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td colspan="2">
+            <table>
+                {% for gts in group_to_subject %}
+                    <tr><td>{{ gts.group_name }} - {{ gts.subject_name }} - {{ gts.number_of_hours }}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
     </tr>
 
     </table>

@@ -14,7 +14,6 @@ def run_mariia(input_data: str) -> str:
     stdout_data, stderr_data, *_ = p.communicate(input=input_data.encode())
     if stderr_data:
         raise ValueError(stderr_data)
-    print(stdout_data.decode())
     return stdout_data.decode()
 
 

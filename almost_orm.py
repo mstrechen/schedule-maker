@@ -51,7 +51,8 @@ class AlmostOrm:
     def group_to_subject(self) -> t.List[GroupToSubject]:
         return list(map(
             lambda res: GroupToSubject(**res),
-            db.execute('SELECT group_name, subject_name, number_of_hours FROM group_to_subject')
+            db.execute('SELECT group_name, subject_name, number_of_hours FROM group_to_subject'
+                       ' ORDER BY group_name, subject_name')
         ))
 
 almost_orm = AlmostOrm()
