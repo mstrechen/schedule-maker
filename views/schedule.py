@@ -7,7 +7,7 @@ from urllib.parse import quote as quote_uri
 from flask import request, render_template
 from flask.views import View
 from almost_orm import almost_orm
-from solvers.solver import get_full_schedule
+from solvers.solver import get_full_schedule, RUNNERS
 
 
 class ScheduleView(View):
@@ -34,7 +34,7 @@ class ScheduleView(View):
     def get_possible_solution_links(self):
         args = request.args.copy()
         res = dict()
-        for solver in ['mariia', 'stasian', 'stasian_1']:
+        for solver in RUNNERS.keys():
             args['solver'] = solver
             res[solver] = urllib.parse.urlencode(args)
         return res

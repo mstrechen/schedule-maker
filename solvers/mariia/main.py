@@ -3,7 +3,10 @@ from collections import namedtuple
 try:
     from solvers.mariia.genetic_algorithm import GeneticAlgorithm
 except:
-    from .genetic_algorithm import GeneticAlgorithm
+    try:
+        from .genetic_algorithm import GeneticAlgorithm
+    except:
+        from genetic_algorithm import GeneticAlgorithm
 
 from copy import deepcopy
 import random

@@ -17,6 +17,19 @@ def run_mariia(input_data: str) -> str:
     return stdout_data.decode()
 
 
+def run_csp(select_variable="first_not_used",
+            order_values="no_transform",
+            forward_checking="true",
+            constraint_propagation="true") -> str:
+    def inner(input_data: str):
+        p = Popen(['python3', 'solvers/csp/main.py', select_variable, order_values, forward_checking, constraint_propagation], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+        stdout_data, stderr_data, *_ = p.communicate(input=input_data.encode())
+        if stderr_data:
+            raise ValueError(stderr_data)
+        return stdout_data.decode()
+
+    return inner
+
 def run_stasian(param: str):
     def inner(input_data: str) -> str:
         o = open('solvers/stasian/input.txt', 'w')
@@ -82,4 +95,9 @@ RUNNERS = {
     'mariia': run_mariia,
     'stasian': run_stasian('0'),
     'stasian_1': run_stasian('1'),
+    'default_csp': run_csp('first_not_used', 'no_transform', 'false', 'false'),
+    'mrv_lcv_csp': run_csp('mrv', 'lcv', 'false', 'false'),
+    'mcv_lcv_csp': run_csp('mcv', 'lcv', 'false', 'false'),
+    'mrv_lcv_fc_csp': run_csp('mrv', 'lcv', 'true', 'false'),
+    'mrv_lcv_cp_csp': run_csp('mrv', 'lcv', 'true', 'true'),
 }
